@@ -6,7 +6,9 @@ class Car {
     }
 
     move(numberFunc) {
-        if (numberFunc() > 5) {
+        let number = numberFunc();
+
+        if (number > 5) {
             return new Car(this.name, this.position + 1);
         }
         return new Car(this.name, this.position);
@@ -16,6 +18,7 @@ class Car {
 class Cars {
     constructor(cars) {
         this.cars = cars;
+        Object.freeze(this);
     }
 
     move(numberFunction) {
@@ -23,9 +26,19 @@ class Cars {
         return new Cars(cars);
     }
 
+    show() {
+        this.cars.forEach(car => {
+            console.log(`${car.name}: ${'-'.repeat(car.position)}`);
+        });
+    }
+
     winners() {
         const maxPosition = Math.max(...this.cars.map(car => car.position));
         return this.cars.filter(car => car.position === maxPosition);
+    }
+
+    showWinner() {
+        console.log(`최종 우승자: ${this.winners().map(winner => winner.name).join(', ')}`);
     }
 }
 
@@ -38,3 +51,4 @@ module.exports = {
     Cars,
     randomNumber
 };
+
